@@ -64,8 +64,10 @@ void
 console_puts(const char *p)
 {
 	char c;
-	while ((c = *(p++)) != 0x00)
+	while ((c = *(p++)) != 0x00) {
+		while (uart_regs->data < 0);
 		uart_regs->data = c;
+	}
 }
 
 int
