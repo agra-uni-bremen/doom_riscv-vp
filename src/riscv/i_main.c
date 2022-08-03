@@ -22,7 +22,6 @@
 
 int main(void)
 {
-	console_puts("Starting DoomMain()\n");
 	D_DoomMain();
 	return 0;
 }

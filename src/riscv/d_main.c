@@ -542,10 +542,10 @@ void IdentifyVersion (void)
 #elif 0
     gamemode = commercial;
     D_AddFile ("tnt.wad");
-#elif 1
+#elif 0
     gamemode = retail;
     D_AddFile ("doomu.wad");
-#elif 0
+#elif 1
     gamemode = registered;
     D_AddFile ("doom.wad");
 #elif 0
@@ -565,7 +565,7 @@ void D_DoomMain (void)
 {
     IdentifyVersion ();
 
-    //setbuf (stdout, NULL);
+    setbuf (stdout, NULL);
     modifiedgame = false;
 
     /* Static options */
