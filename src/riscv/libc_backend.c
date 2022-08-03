@@ -37,15 +37,15 @@
 // -------------
 
 extern uint8_t _heap_start;
-static void *heap_end   = &_heap_start;
 
 void *
 _sbrk(intptr_t increment)
 {
+	static void* heap_end = &_heap_start;
 	void *rv = heap_end;
 	heap_end += increment;
 #ifdef LIBC_DEBUG
-	console_printf("Heap extended to %08x\n", (uint32_t)heap_end);
+	console_printf("Heap from 0x%08x extended to 0x%08x\n", (uint32_t)&_heap_start, (uint32_t)heap_end);
 #endif
 	return rv;
 }
@@ -60,7 +60,7 @@ static struct {
 	size_t      len;	/* Length */
 	void *      addr;	/* Address in flash */
 } fs[] = {
-	{ "doomu.wad", 12408292, (void*)0x40200000 },
+	{ "doom.wad", 12408292, (void*)0x60000000 },
 	{ NULL }
 };
 
