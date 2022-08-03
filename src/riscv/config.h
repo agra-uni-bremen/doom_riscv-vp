@@ -23,8 +23,8 @@
 
 #pragma once
 
-#define VID_BASE	0x81000000
-#define UART_BASE	0x82000000
+#define VID_BASE	0x72000000
+#define UART_BASE	0x20010000
 #define LED_BASE	0x83000000
 
 #define VID_CTRL_BASE	(VID_BASE + 0x00000)

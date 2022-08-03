@@ -1,11 +1,11 @@
-CROSS ?= riscv-none-embed-
+CROSS ?= riscv32-unknown-elf-
 
 CC = $(CROSS)gcc
 OBJCOPY = $(CROSS)objcopy
 SIZE = $(CROSS)size
 ICEPROG = iceprog
 
-CFLAGS=-Wall -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section --specs=nano.specs -I..
+CFLAGS=-Wall -ggdb -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section --specs=nano.specs -I..
 
 CFLAGS += \
 	-DNORMALUNIX \
@@ -39,7 +39,7 @@ SOURCES_doom_arch := \
 all: doom-riscv.bin
 
 doom-riscv.elf: riscv.lds $(addprefix ../,$(SOURCES_doom)) $(SOURCES_doom_arch)
-	$(CC) $(CFLAGS) -Wl,-Bstatic,-T,riscv.lds,--strip-debug -o $@ $(addprefix ../,$(SOURCES_doom)) $(SOURCES_doom_arch)
+	$(CC) $(CFLAGS) -Wl,-Bstatic,-T,riscv.lds -o $@ $(addprefix ../,$(SOURCES_doom)) $(SOURCES_doom_arch)
 	$(SIZE) $@
 
 clean:
@@ -55,6 +55,8 @@ prog: doom-riscv.bin
 prog_wad: data/doomu.wad
 	$(ICEPROG) -o 2M $<
 
+run: doom-riscv.elf prog_wad
+	riscv-vp --intercept-syscalls doom-riscv.elf
 
 .PHONY: all clean prog prog_wad
 .PRECIOUS: *.elf

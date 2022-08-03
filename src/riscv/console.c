@@ -38,6 +38,7 @@ console_init(void)
 void
 console_putchar(char c)
 {
+	while (uart_regs->data < 0);
 	uart_regs->data = c;
 }
 
