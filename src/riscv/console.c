@@ -21,25 +21,25 @@
 #include "mini-printf.h"
 
 
-struct wb_uart {
-	uint32_t data;
-	uint32_t clkdiv;
+struct sifive_uart {
+	uint32_t tx;
+	uint32_t rx;
 } __attribute__((packed,aligned(4)));
 
-static volatile struct wb_uart * const uart_regs = (void*)(UART_BASE);
+static volatile struct sifive_uart * const uart_regs = (void*)(UART_BASE);
 
 
 void
 console_init(void)
 {
-	uart_regs->clkdiv = 23;	/* 1 Mbaud with clk=25MHz */
+	// nothing yet
 }
 
 void
 console_putchar(char c)
 {
-	while (uart_regs->data < 0);
-	uart_regs->data = c;
+	while (uart_regs->tx < 0);
+	uart_regs->tx = c;
 }
 
 char
@@ -47,17 +47,16 @@ console_getchar(void)
 {
 	int32_t c;
 	do {
-		c = uart_regs->data;
-	} while (c & 0x80000000);
+		c = uart_regs->rx;
+	} while (c <= 0);
 	return c;
 }
 
 int
 console_getchar_nowait(void)
 {
-	int32_t c;
-	c = uart_regs->data;
-	return c & 0x80000000 ? -1 : (c & 0xff);
+	int32_t c = uart_regs->rx;
+	return c > 0 ? (c & 0xff) : -1;
 }
 
 void
@@ -65,8 +64,8 @@ console_puts(const char *p)
 {
 	char c;
 	while ((c = *(p++)) != 0x00) {
-		while (uart_regs->data < 0);
-		uart_regs->data = c;
+		while (uart_regs->tx < 0);
+		uart_regs->tx = c;
 	}
 }
 

@@ -5,7 +5,8 @@ OBJCOPY = $(CROSS)objcopy
 SIZE = $(CROSS)size
 ICEPROG = iceprog
 
-CFLAGS=-Wall -ggdb -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section,--print-memory-usage --specs=nano.specs -I..
+#CFLAGS=-Wall -ggdb -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section,--print-memory-usage --specs=nano.specs -I..
+CFLAGS=-Wall -ggdb -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section,--print-memory-usage --specs=nano.specs -I..
 
 CFLAGS += \
 	-DNORMALUNIX \

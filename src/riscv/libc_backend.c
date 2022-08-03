@@ -30,7 +30,7 @@
 #include "console.h"
 
 
-#define LIBC_DEBUG
+//#define LIBC_DEBUG
 
 
 // HEAP handling

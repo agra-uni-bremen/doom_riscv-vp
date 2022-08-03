@@ -68,6 +68,7 @@ I_UpdateNoBlit(void)
 void
 I_FinishUpdate (void)
 {
+	printf("Trying to render Frame from %08x to %08x\n", screens[0], VID_FB_BASE);
 	/* Copy from RAM buffer to frame buffer */
 	memcpy(
 		(void*)VID_FB_BASE,

@@ -39,20 +39,12 @@
 #include "config.h"
 
 
-/* Video controller, used as a time base */
-	/* Normally running at 70 Hz, although in 640x480 compat
-	 * mode, it's 60 Hz so our tick is 15% too slow ... */
-static volatile uint32_t * const video_state = (void*)(VID_CTRL_BASE);
-
-/* Video Ticks tracking */
-static uint16_t vt_last = 0;
-static uint32_t vt_base = 0;
-
+volatile uint64_t* mtime =   (uint64_t*)(CLINT_MTIME);
 
 void
 I_Init(void)
 {
-	vt_last = video_state[0] & 0xffff;
+	//nothing needed yet
 }
 
 
@@ -68,14 +60,8 @@ I_ZoneBase(int *size)
 int
 I_GetTime(void)
 {
-	uint16_t vt_now = video_state[0] & 0xffff;
-
-	if (vt_now < vt_last)
-		vt_base += 65536;
-	vt_last = vt_now;
-
-	/* TIC_RATE is 35 in theory */
-	return (vt_base + vt_now) >> 1;
+	uint32_t time = *mtime;
+	return time;
 }
 
 

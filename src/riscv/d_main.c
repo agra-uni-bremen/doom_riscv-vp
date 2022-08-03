@@ -623,13 +623,20 @@ void D_DoomMain (void)
     printf ("ST_Init: Init status bar.\n");
     ST_Init ();
 
+    printf ("Init done.\n");
+
     if ( gameaction != ga_loadgame )
     {
-        if (autostart || netgame)
+        printf ("No gameaction given. ");
+        if (autostart || netgame) {
+            printf ("Starting new game.\n");
             G_InitNew (startskill, startepisode, startmap);
-        else
+        } else {
+            printf ("Starting intro loop.\n");
             D_StartTitle ();                // start up intro loop
+        }
     }
 
+    printf ("Go!\n");	
     D_DoomLoop ();  // never returns
 }
