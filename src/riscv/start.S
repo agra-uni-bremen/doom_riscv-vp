@@ -21,11 +21,13 @@
 	.global _start
 _start:
 
+	j end_init_data
+
 	// Init .data section from flash
 	la a0, _sidata
 	la a1, _sdata
 	la a2, _edata
-	bge a1, a2, end_init_data
+ 	bge a1, a2, end_init_data
 loop_init_data:
 	lw a3, 0(a0)
 	sw a3, 0(a1)
