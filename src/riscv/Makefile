@@ -5,7 +5,7 @@ OBJCOPY = $(CROSS)objcopy
 SIZE = $(CROSS)size
 ICEPROG = iceprog
 
-CFLAGS=-Wall -ggdb -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section --specs=nano.specs -I..
+CFLAGS=-Wall -ggdb -O2 -march=rv32im -mabi=ilp32 -ffreestanding -flto -nostartfiles -fomit-frame-pointer -Wl,--gc-section,--print-memory-usage --specs=nano.specs -I..
 
 CFLAGS += \
 	-DNORMALUNIX \
@@ -55,8 +55,8 @@ prog: doom-riscv.bin
 prog_wad: data/doomu.wad
 	$(ICEPROG) -o 2M $<
 
-run: doom-riscv.elf prog_wad
-	riscv-vp --intercept-syscalls doom-riscv.elf
+run: doom-riscv.elf
+	riscv-vp --mram-image ../../data/doom.wad --intercept-syscalls doom-riscv.elf
 
 .PHONY: all clean prog prog_wad
 .PRECIOUS: *.elf
